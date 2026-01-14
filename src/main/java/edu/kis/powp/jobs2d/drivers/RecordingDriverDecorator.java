@@ -1,11 +1,7 @@
 package edu.kis.powp.jobs2d.drivers;
 
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
-
 import edu.kis.powp.jobs2d.Job2dDriver;
 import edu.kis.powp.jobs2d.command.CompoundCommand;
-import edu.kis.powp.jobs2d.drivers.adapter.LineDriverAdapter;
 
 public class RecordingDriverDecorator implements Job2dDriver {
     private final Job2dDriver targetDriver;

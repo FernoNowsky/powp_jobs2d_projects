@@ -27,11 +27,11 @@ import edu.kis.powp.jobs2d.features.CommandsFeature;
 import edu.kis.powp.jobs2d.features.DrawerFeature;
 import edu.kis.powp.jobs2d.features.DriverFeature;
 import edu.kis.powp.jobs2d.features.MonitoringFeature;
+import edu.kis.powp.jobs2d.features.ViewFeature;
 
 import edu.kis.powp.jobs2d.drivers.transformation.DriverFeatureFactory;
 import edu.kis.powp.jobs2d.canvas.CanvasFactory;
 
-import edu.kis.powp.jobs2d.drivers.transformation.DriverFeatureFactory;
 
 public class TestJobs2dApp {
     private final static Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
@@ -64,7 +64,7 @@ public class TestJobs2dApp {
      * @param application Application context.
      */
     private static void setupCommandTests(Application application) {
-        application.getFreePanel().addMouseListener(new CanvasMouseListener());
+        ViewFeature.addMouseListenerToControlPanel(new CanvasMouseListener());
         application.addTest("Load secret command", new SelectLoadSecretCommandOptionListener());
         application.addTest("Run command", new SelectRunCurrentCommandOptionListener(DriverFeature.getDriverManager()));
     }
@@ -163,6 +163,21 @@ public class TestJobs2dApp {
     }
 
     /**
+     * Setup view options (zoom, pan, reset).
+     * 
+     * @param application Application context.
+     */
+    private static void setupView(Application application) {
+        SelectZoomInOptionListener zoomInListener = new SelectZoomInOptionListener();
+        SelectZoomOutOptionListener zoomOutListener = new SelectZoomOutOptionListener();
+        SelectResetViewOptionListener resetViewListener = new SelectResetViewOptionListener();
+
+        application.addComponentMenuElement(ViewFeature.class, "Zoom in", zoomInListener);
+        application.addComponentMenuElement(ViewFeature.class, "Zoom out", zoomOutListener);
+        application.addComponentMenuElement(ViewFeature.class, "Reset", resetViewListener);
+    }
+
+    /**
      * Setup menu for adjusting logging settings.
      * 
      * @param application Application context.
@@ -188,6 +203,7 @@ public class TestJobs2dApp {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 Application app = new Application("Jobs 2D");
+                ViewFeature.setupViewPlugin(app);
                 DrawerFeature.setupDrawerPlugin(app);
                 CanvasFeature.setupCanvasPlugin(app);
                 CommandsFeature.setupCommandManager();
@@ -196,6 +212,7 @@ public class TestJobs2dApp {
                 setupDrivers(app);
                 MonitoringFeature.setupMonitoringPlugin(app, logger);
                 setupCanvases(app);
+                setupView(app);
                 setupPresetTests(app);
                 setupCommandTests(app);
                 setupLogger(app);

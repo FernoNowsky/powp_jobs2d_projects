@@ -36,6 +36,14 @@ public class RectangularCanvas implements ICanvas {
     }
     
     @Override
+    public boolean containsPointWithMargin(int x, int y, CanvasMargin margin) {
+        int effectiveHalfWidth = width / 2 - Math.max(margin.getLeft(), margin.getRight());
+        int effectiveHalfHeight = height / 2 - Math.max(margin.getTop(), margin.getBottom());
+        
+        return Math.abs(x) <= effectiveHalfWidth && Math.abs(y) <= effectiveHalfHeight;
+    }
+    
+    @Override
     public String getName() {
         return name;
     }

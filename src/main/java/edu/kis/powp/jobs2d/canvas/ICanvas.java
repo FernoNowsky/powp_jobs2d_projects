@@ -18,6 +18,11 @@ public interface ICanvas {
     boolean containsPoint(int x, int y);
     
     /**
+     * Checks if a point is within the canvas considering margins
+     */
+    boolean containsPointWithMargin(int x, int y, CanvasMargin margin);
+    
+    /**
      * Gets canvas name.
      */
     String getName();

@@ -46,6 +46,21 @@ public class CircleCanvas implements ICanvas {
     }
     
     @Override
+    public boolean containsPointWithMargin(int x, int y, CanvasMargin margin) {
+        int maxMargin = Math.max(
+            Math.max(margin.getTop(), margin.getBottom()),
+            Math.max(margin.getLeft(), margin.getRight())
+        );
+        int effectiveRadius = radius - maxMargin;
+        
+        if (effectiveRadius <= 0) {
+            return false;
+        }
+        
+        return x * x + y * y <= effectiveRadius * effectiveRadius;
+    }
+    
+    @Override
     public String getName() {
         return name;
     }

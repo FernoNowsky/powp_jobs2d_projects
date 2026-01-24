@@ -2,7 +2,6 @@ package edu.kis.powp.jobs2d.drivers;
 
 import java.util.logging.Logger;
 
-import edu.kis.powp.jobs2d.Job2dDriver;
 import edu.kis.powp.jobs2d.canvas.CanvasMargin;
 import edu.kis.powp.jobs2d.canvas.ICanvas;
 import edu.kis.powp.jobs2d.features.CanvasFeature;
@@ -16,6 +15,10 @@ public class CanvasBoundaryDriverDecorator implements VisitableJob2dDriver {
 
     public CanvasBoundaryDriverDecorator(VisitableJob2dDriver delegate) {
         this.delegate = delegate;
+    }
+
+    public VisitableJob2dDriver getDelegate() {
+        return delegate;
     }
 
     @Override

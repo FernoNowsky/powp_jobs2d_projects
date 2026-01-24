@@ -3,8 +3,10 @@ package edu.kis.powp.jobs2d.drivers;
 import edu.kis.powp.jobs2d.Job2dDriver;
 import edu.kis.powp.jobs2d.canvas.CanvasMargin;
 import edu.kis.powp.jobs2d.canvas.ICanvas;
+import edu.kis.powp.jobs2d.visitor.DriverVisitor;
+import edu.kis.powp.jobs2d.visitor.VisitableJob2dDriver;
 
-public class CanvasValidationDriver implements Job2dDriver {
+public class CanvasValidationDriver implements VisitableJob2dDriver {
     private final ICanvas canvas;
     private boolean isCanvasExceeded = false;
     private boolean isMarginExceeded = false;
@@ -23,6 +25,11 @@ public class CanvasValidationDriver implements Job2dDriver {
         checkBounds(x, y);
     }
 
+    @Override
+    public void accept(DriverVisitor visitor) {
+        visitor.visit(this);
+    }
+
     private void checkBounds(int x, int y) {
         if (!canvas.containsPoint(x, y)) {
             isCanvasExceeded = true;
@@ -39,5 +46,9 @@ public class CanvasValidationDriver implements Job2dDriver {
 
     public boolean isMarginExceeded() {
         return isMarginExceeded;
+    }
+    
+    public ICanvas getCanvas() {
+        return canvas;
     }
 }

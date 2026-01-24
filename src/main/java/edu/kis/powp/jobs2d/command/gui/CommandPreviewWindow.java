@@ -15,6 +15,8 @@ import edu.kis.legacy.drawer.shape.LineFactory;
 import edu.kis.powp.appbase.gui.WindowComponent;
 import edu.kis.powp.jobs2d.command.DriverCommand;
 import edu.kis.powp.jobs2d.canvas.CanvasManager;
+import edu.kis.powp.jobs2d.canvas.ICanvas;
+import edu.kis.powp.jobs2d.drivers.CanvasValidationDriver;
 import edu.kis.powp.jobs2d.drivers.adapter.LineDriverAdapter;
 import edu.kis.powp.jobs2d.features.CanvasFeature;
 import edu.kis.powp.jobs2d.features.CanvasLayerPanel;

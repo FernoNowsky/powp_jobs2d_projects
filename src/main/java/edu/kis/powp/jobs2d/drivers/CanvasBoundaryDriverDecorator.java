@@ -41,7 +41,8 @@ public class CanvasBoundaryDriverDecorator implements VisitableJob2dDriver {
             return;
         }
 
-        if (!canvas.containsPointWithMargin(x, y, CanvasMargin.standard())) {
+        CanvasMargin margin = canvas.getMargin();
+        if (margin != null && !canvas.containsPointWithMargin(x, y, margin)) {
             logger.warning("Operation exceeds canvas margin: (x:" + x + ", y:" + y + ")");
         }
     }

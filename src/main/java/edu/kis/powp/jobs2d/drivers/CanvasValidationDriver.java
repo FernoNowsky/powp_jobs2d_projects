@@ -27,8 +27,8 @@ public class CanvasValidationDriver implements Job2dDriver {
         if (!canvas.containsPoint(x, y)) {
             isCanvasExceeded = true;
         }
-        // We should add margin to the canvas class. By this we could use getMargin() method. Now it is not possible.
-        if (!canvas.containsPointWithMargin(x, y, CanvasMargin.standard())) {
+        CanvasMargin margin = canvas.getMargin();
+        if (margin != null && !canvas.containsPointWithMargin(x, y, margin)) {
             isMarginExceeded = true;
         }
     }

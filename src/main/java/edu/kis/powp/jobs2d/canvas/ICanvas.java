@@ -26,4 +26,14 @@ public interface ICanvas {
      * Gets canvas name.
      */
     String getName();
+
+    /**
+     * Gets current canvas margin.
+     */
+    CanvasMargin getMargin();
+
+    /**
+     * Sets canvas margin.
+     */
+    void setMargin(CanvasMargin margin);
 }

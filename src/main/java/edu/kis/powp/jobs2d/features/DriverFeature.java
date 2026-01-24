@@ -32,6 +32,7 @@ public class DriverFeature {
      * @param driver VisitableJob2dDriver object.
      */
     public static void addDriver(String name, VisitableJob2dDriver driver) {
+        // CanvasBoundaryDriverDecorator adds canvas boundary validation to the selected driver from the list.
         CanvasBoundaryDriverDecorator wrappedDriver = new CanvasBoundaryDriverDecorator(driver);
         SelectDriverMenuOptionListener listener = new SelectDriverMenuOptionListener(wrappedDriver, driverManager);
         app.addComponentMenuElement(DriverFeature.class, name, listener);

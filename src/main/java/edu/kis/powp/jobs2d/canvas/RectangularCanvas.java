@@ -8,6 +8,7 @@ public class RectangularCanvas implements ICanvas {
     private final int width;
     private final int height;
     private final String name;
+    private CanvasMargin margin = CanvasMargin.standard();
     
     public RectangularCanvas(int width, int height, String name) {
         this.width = width;
@@ -46,6 +47,16 @@ public class RectangularCanvas implements ICanvas {
     @Override
     public String getName() {
         return name;
+    }
+
+    @Override
+    public CanvasMargin getMargin() {
+        return margin;
+    }
+
+    @Override
+    public void setMargin(CanvasMargin margin) {
+        this.margin = margin;
     }
 }
 

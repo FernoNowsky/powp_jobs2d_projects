@@ -11,6 +11,7 @@ public class CircleCanvas implements ICanvas {
     private final int radius;
     private final int segments;
     private final String name;
+    private CanvasMargin margin = CanvasMargin.standard();
     
     public CircleCanvas(int radius, int segments) {
         this.radius = radius;
@@ -63,6 +64,16 @@ public class CircleCanvas implements ICanvas {
     @Override
     public String getName() {
         return name;
+    }
+
+    @Override
+    public CanvasMargin getMargin() {
+        return margin;
+    }
+
+    @Override
+    public void setMargin(CanvasMargin margin) {
+        this.margin = margin;
     }
 }
 

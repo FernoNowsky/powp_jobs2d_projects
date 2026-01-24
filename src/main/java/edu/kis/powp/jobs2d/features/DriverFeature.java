@@ -4,6 +4,7 @@ import edu.kis.powp.appbase.Application;
 import edu.kis.powp.jobs2d.visitor.VisitableJob2dDriver;
 import edu.kis.powp.jobs2d.drivers.DriverManager;
 import edu.kis.powp.jobs2d.drivers.SelectDriverMenuOptionListener;
+import edu.kis.powp.jobs2d.drivers.CanvasBoundaryDriverDecorator;
 
 public class DriverFeature {
 
@@ -31,7 +32,8 @@ public class DriverFeature {
      * @param driver VisitableJob2dDriver object.
      */
     public static void addDriver(String name, VisitableJob2dDriver driver) {
-        SelectDriverMenuOptionListener listener = new SelectDriverMenuOptionListener(driver, driverManager);
+        CanvasBoundaryDriverDecorator wrappedDriver = new CanvasBoundaryDriverDecorator(driver);
+        SelectDriverMenuOptionListener listener = new SelectDriverMenuOptionListener(wrappedDriver, driverManager);
         app.addComponentMenuElement(DriverFeature.class, name, listener);
     }
 

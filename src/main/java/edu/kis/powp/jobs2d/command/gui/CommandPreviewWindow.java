@@ -7,6 +7,8 @@ import java.awt.Container;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.OverlayLayout;
+import javax.swing.JLabel;
+import javax.swing.SwingConstants;
 
 import edu.kis.legacy.drawer.panel.DrawPanelController;
 import edu.kis.legacy.drawer.shape.LineFactory;
@@ -26,6 +28,7 @@ public class CommandPreviewWindow extends JFrame implements WindowComponent {
     private final JPanel drawingPanel;
     private final CanvasLayerPanel canvasOverlay;
     private final DrawPanelController drawPanelController;
+    private final JLabel statusLabel;
 
     public CommandPreviewWindow() {
         this(CanvasFeature.getCanvasManager());
@@ -33,11 +36,15 @@ public class CommandPreviewWindow extends JFrame implements WindowComponent {
 
     public CommandPreviewWindow(CanvasManager canvasManager) {
         this.setTitle("Command Preview");
-        this.setSize(400, 400);
+        this.setSize(400, 420);
         this.canvasManager = canvasManager;
         
         Container content = this.getContentPane();
         content.setLayout(new BorderLayout());
+
+        this.statusLabel = new JLabel("");
+        this.statusLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        content.add(statusLabel, BorderLayout.SOUTH);
 
         this.previewContainerPanel = new JPanel();
         this.previewContainerPanel.setLayout(new OverlayLayout(this.previewContainerPanel));
@@ -64,7 +71,24 @@ public class CommandPreviewWindow extends JFrame implements WindowComponent {
         refreshCanvasOverlay();
         drawPanelController.clearPanel();
         
+        statusLabel.setText("");
+        statusLabel.setForeground(Color.BLACK);
+
         if (command != null) {
+            ICanvas currentCanvas = canvasManager.getCurrentCanvas();
+            if (currentCanvas != null) {
+                CanvasValidationDriver validator = new CanvasValidationDriver(currentCanvas);
+                command.execute(validator);
+                
+                if (validator.isCanvasExceeded()) {
+                    statusLabel.setText("Warning: Command exceeds canvas boundaries!");
+                    statusLabel.setForeground(Color.RED);
+                } else if (validator.isMarginExceeded()) {
+                    statusLabel.setText("Warning: Command exceeds canvas margin!");
+                    statusLabel.setForeground(Color.RED);
+                }
+            }
+
             LineDriverAdapter driver = new LineDriverAdapter(drawPanelController, LineFactory.getBasicLine(), "preview");
             command.execute(driver);
         }

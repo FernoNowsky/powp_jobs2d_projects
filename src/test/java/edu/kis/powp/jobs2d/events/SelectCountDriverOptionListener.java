@@ -39,7 +39,6 @@ public class SelectCountDriverOptionListener implements ActionListener {
                     "TransformerDriverDecorator count: " + stats.getTransformerDriverDecoratorCount() + "\n" +
                     "UsageTrackingDriverDecorator count: " + stats.getUsageTrackingDriverDecoratorCount() + "\n" +
                     "RecordingDriverDecorator count: " + stats.getRecordingDriverDecoratorCount() + "\n" +
-                    "CanvasBoundaryDriverDecorator count: " + stats.getCanvasBoundaryDriverDecoratorCount() + "\n" +
-                    "CanvasValidationDriver count: " + stats.getCanvasValidationDriverCount());
+                    "CanvasBoundaryDriverDecorator count: " + stats.getCanvasBoundaryDriverDecoratorCount());
     }
 }

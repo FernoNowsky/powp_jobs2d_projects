@@ -16,7 +16,7 @@ import edu.kis.powp.appbase.gui.WindowComponent;
 import edu.kis.powp.jobs2d.command.DriverCommand;
 import edu.kis.powp.jobs2d.canvas.CanvasManager;
 import edu.kis.powp.jobs2d.canvas.ICanvas;
-import edu.kis.powp.jobs2d.drivers.CanvasValidationDriver;
+import edu.kis.powp.jobs2d.drivers.CanvasBoundaryDriverDecorator;
 import edu.kis.powp.jobs2d.drivers.adapter.LineDriverAdapter;
 import edu.kis.powp.jobs2d.features.CanvasFeature;
 import edu.kis.powp.jobs2d.features.CanvasLayerPanel;
@@ -31,7 +31,9 @@ public class CommandPreviewWindow extends JFrame implements WindowComponent {
     private final CanvasLayerPanel canvasOverlay;
     private final DrawPanelController drawPanelController;
     private final JLabel statusLabel;
-
+    private final LineDriverAdapter driver;
+    private final CanvasBoundaryDriverDecorator validator;
+    
     public CommandPreviewWindow() {
         this(CanvasFeature.getCanvasManager());
     }
@@ -64,7 +66,8 @@ public class CommandPreviewWindow extends JFrame implements WindowComponent {
 
         this.drawPanelController = new DrawPanelController();
         this.drawPanelController.initialize(drawingPanel);
-        
+        this.driver = new LineDriverAdapter(drawPanelController, LineFactory.getBasicLine(), "preview");
+        this.validator = new CanvasBoundaryDriverDecorator(driver);
         refreshCanvasOverlay();
         canvasManager.getChangePublisher().addSubscriber(this::refreshCanvasOverlay);
     }
@@ -72,16 +75,14 @@ public class CommandPreviewWindow extends JFrame implements WindowComponent {
     public void updatePreview(DriverCommand command) {
         refreshCanvasOverlay();
         drawPanelController.clearPanel();
-        
+        validator.reset();
         statusLabel.setText("");
         statusLabel.setForeground(Color.BLACK);
 
         if (command != null) {
+            command.execute(validator);
             ICanvas currentCanvas = canvasManager.getCurrentCanvas();
             if (currentCanvas != null) {
-                CanvasValidationDriver validator = new CanvasValidationDriver(currentCanvas);
-                command.execute(validator);
-                
                 if (validator.isCanvasExceeded()) {
                     statusLabel.setText("Warning: Command exceeds canvas boundaries!");
                     statusLabel.setForeground(Color.RED);
@@ -90,9 +91,6 @@ public class CommandPreviewWindow extends JFrame implements WindowComponent {
                     statusLabel.setForeground(Color.RED);
                 }
             }
-
-            LineDriverAdapter driver = new LineDriverAdapter(drawPanelController, LineFactory.getBasicLine(), "preview");
-            command.execute(driver);
         }
         
         previewContainerPanel.revalidate();

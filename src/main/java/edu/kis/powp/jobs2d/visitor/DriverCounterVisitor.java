@@ -8,7 +8,6 @@ import java.util.Iterator;
 
 import edu.kis.powp.jobs2d.drivers.AnimatedDriverDecorator;
 import edu.kis.powp.jobs2d.drivers.CanvasBoundaryDriverDecorator;
-import edu.kis.powp.jobs2d.drivers.CanvasValidationDriver;
 import edu.kis.powp.jobs2d.drivers.UsageTrackingDriverDecorator;
 import edu.kis.powp.jobs2d.drivers.adapter.LineDriverAdapter;
 import edu.kis.powp.jobs2d.drivers.transformation.TransformerDriverDecorator;
@@ -22,7 +21,6 @@ public class DriverCounterVisitor implements DriverVisitor {
     private int usageTrackingDecoratorCount = 0;
     private int recordingDriverDecoratorCount = 0;
     private int canvasBoundaryDriverDecoratorCount = 0;
-    private int canvasValidationDriverCount = 0;
 
     private DriverCounterVisitor() {
     }
@@ -35,10 +33,9 @@ public class DriverCounterVisitor implements DriverVisitor {
         private final int usageTrackingDecoratorCount;
         private final int recordingDriverDecoratorCount;
         private final int canvasBoundaryDriverDecoratorCount;
-        private final int canvasValidationDriverCount;
 
         public DriverStats(int animatedDriverDecoratorCount, int loggerDriverCount, int lineDriverAdapterCount,
-                int transformerDriverDecoratorCount, int usageTrackingDecoratorCount, int recordingDriverDecoratorCount, int canvasBoundaryDriverDecoratorCount, int canvasValidationDriverCount) {
+                int transformerDriverDecoratorCount, int usageTrackingDecoratorCount, int recordingDriverDecoratorCount, int canvasBoundaryDriverDecoratorCount) {
             this.animatedDriverDecoratorCount = animatedDriverDecoratorCount;
             this.loggerDriverCount = loggerDriverCount;
             this.lineDriverAdapterCount = lineDriverAdapterCount;
@@ -46,7 +43,6 @@ public class DriverCounterVisitor implements DriverVisitor {
             this.usageTrackingDecoratorCount = usageTrackingDecoratorCount;
             this.recordingDriverDecoratorCount = recordingDriverDecoratorCount;
             this.canvasBoundaryDriverDecoratorCount = canvasBoundaryDriverDecoratorCount;
-            this.canvasValidationDriverCount = canvasValidationDriverCount;
                 }
 
         public int getAnimatedDriverDecoratorCount() {
@@ -77,13 +73,9 @@ public class DriverCounterVisitor implements DriverVisitor {
             return canvasBoundaryDriverDecoratorCount;
         }
 
-        public int getCanvasValidationDriverCount() {
-            return canvasValidationDriverCount;
-        }
-
         public int getCount() {
             return animatedDriverDecoratorCount + loggerDriverCount + lineDriverAdapterCount
-                    + transformerDriverDecoratorCount + usageTrackingDecoratorCount + recordingDriverDecoratorCount + canvasBoundaryDriverDecoratorCount + canvasValidationDriverCount;
+                    + transformerDriverDecoratorCount + usageTrackingDecoratorCount + recordingDriverDecoratorCount + canvasBoundaryDriverDecoratorCount;
         }
     }
 
@@ -92,7 +84,7 @@ public class DriverCounterVisitor implements DriverVisitor {
         driver.accept(visitor);
         return new DriverStats(visitor.animatedDriverDecoratorCount, visitor.loggerDriverCount,
                 visitor.lineDriverAdapterCount, visitor.transformerDriverDecoratorCount,
-                visitor.usageTrackingDecoratorCount, visitor.recordingDriverDecoratorCount, visitor.canvasBoundaryDriverDecoratorCount, visitor.canvasValidationDriverCount);
+                visitor.usageTrackingDecoratorCount, visitor.recordingDriverDecoratorCount, visitor.canvasBoundaryDriverDecoratorCount);
     }
 
     @Override
@@ -143,10 +135,5 @@ public class DriverCounterVisitor implements DriverVisitor {
     public void visit(CanvasBoundaryDriverDecorator canvasBoundaryDriverDecorator) {
         this.canvasBoundaryDriverDecoratorCount++;
         canvasBoundaryDriverDecorator.getDelegate().accept(this);
-    }
-
-    @Override
-    public void visit(CanvasValidationDriver canvasValidationDriver) {
-        this.canvasValidationDriverCount++;
     }
 }

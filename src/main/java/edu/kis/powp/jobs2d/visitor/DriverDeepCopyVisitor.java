@@ -5,7 +5,6 @@ import java.util.Iterator;
 
 import edu.kis.powp.jobs2d.drivers.AnimatedDriverDecorator;
 import edu.kis.powp.jobs2d.drivers.CanvasBoundaryDriverDecorator;
-import edu.kis.powp.jobs2d.drivers.CanvasValidationDriver;
 import edu.kis.powp.jobs2d.drivers.DriverComposite;
 import edu.kis.powp.jobs2d.drivers.LoggerDriver;
 import edu.kis.powp.jobs2d.drivers.RecordingDriverDecorator;
@@ -83,8 +82,4 @@ public class DriverDeepCopyVisitor implements DriverVisitor {
         copy = new CanvasBoundaryDriverDecorator(targetCopy);
     }
 
-    @Override
-    public void visit(CanvasValidationDriver canvasValidationDriver) {
-        copy = new CanvasValidationDriver(canvasValidationDriver.getCanvas());
-    }
 }
